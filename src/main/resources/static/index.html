@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>I-Counter</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="shortcut icon" type="image/x-icon" href="iIcon.ico"/>
+</head>
+<body>
+
+<center>
+    <form name="form" id="formId">
+        <table border="1">
+            <tr>
+                <td colspan="2">
+                    Input text:<br>
+                    <textarea cols="80" rows="30" name="inputText" id="textAreaId"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="button" value="COUNT" style="height:40px;width:90px;background-color:green" onclick="sendHttpRequest()">
+                    <input type="button" value="CLEAR" style="height:40px;width:90px;background-color:red" onclick="resetForm()">
+                </td>
+            </tr>
+        </table>
+    </form>
+    <p id="resultId" style="font-size:24px;">Number of I letters in text: 0</p>
+</center>
+
+<script>
+    function resetForm(){
+        document.getElementById("formId").reset();
+        document.getElementById("resultId").innerHTML = "Number of I letters in text: 0";
+    }
+
+    function sendHttpRequest() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var resTxt = "Number of I letters in text: ";
+                document.getElementById("resultId").innerHTML = resTxt.concat(this.responseText);
+            }
+        };
+
+        var responseTxt = document.getElementById("textAreaId").value;
+        var start = '{"text":"';
+        var end = '"}';
+        var res = start.concat(responseTxt, end);
+        xhttp.open("POST", "/letter_counter", true);
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.send(res);
+    }
+</script>
+
+</body>
+
+</html>
