@@ -1,4 +1,4 @@
-# CoymnoTask4
+# ComynoTask4
 I Character Counter Service
 
 Build solution:
